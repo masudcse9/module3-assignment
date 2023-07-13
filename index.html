@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>মডিউল ৩ এর এসাইনমেন্ট</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
+    <script src="js/axios.min.js"></script>    
+
+</head>
+<body>
+    <label>1.Date Object:<br />
+
+        a. Create a function that takes a date in the format "YYYY-MM-DD" as a parameter and returns the day of the week for that date. The function should use the Date object.
+        <br />
+        <br />
+        b. Implement the function to display the day of the week for the current date.
+        <br />
+        <br /> 
+        Answer : <br />
+        <input type="date" id="week" placeholder="<year>-W<week>" />
+        <input type="button" id="button" value="click" /><br />
+        <span id="displayDates" style="color:red;"></span>
+        
+        <script>
+            let button = document.querySelector('#button');
+            button.onclick = () => {
+              let week = document.querySelector('#week');
+              let dates = parseDates(week.value);
+              console.log(dates);
+            }
+
+
+            let parseDates = (inp) => {
+              let year = parseInt(inp.slice(0,4), 10);
+              let week = parseInt(inp.slice(6), 10);
+
+              let day = (1 + (week - 1) * 7); // 1st of January + 7 days for each week
+
+              let dayOffset = new Date(year, 0, 1).getDay(); // we need to know at what day of the week the year start
+
+              dayOffset--;  // depending on what day you want the week to start increment or decrement this value. This should make the week start on a monday
+
+              let days = [];
+              for (let i = 0; i < 7; i++) // do this 7 times, once for every day
+                days.push(new Date(year, 0, day - dayOffset + i)) // add a new Date object to the array with an offset of i days relative to the first day of the week
+              document.querySelector('#displayDates').innerText = days; //return days;
+            }  
+        </script>
+    
+    </label><br /><br />
+
+    <label>2.Math Object:<br />
+
+        a. Write a JavaScript function that takes an array of numbers as input and returns the square root of the sum of squares of all the numbers. Use the Math object to perform the necessary calculations.
+        <br />
+        <br />
+        b. Implement the function to display the square root of the sum of squares for an array of numbers.
+        <br />
+        <br /> 
+        Answer : <br />
+        <input type="text" class="square-root" placeholder="Enter number" />
+        <input type="button" id="buttonSquareRoot" value="click" /><br />
+        <span id="displayNumbers" style="color:red;"></span>
+        
+        <script>
+            let buttonCli = document.querySelector('#buttonSquareRoot');
+                buttonCli.onclick = () => {
+
+                let data      = document.querySelector('.square-root');                 
+                let numbers   = data.value;
+
+                const result = Math.sqrt(numbers);
+
+                document.querySelector('#displayNumbers').innerText = `The square root of ${numbers} is ${result}`;
+            }            
+        </script>
+    
+    </label><br /><br />
+
+    <label>3.Numbers:<br />
+
+        a. Write a JavaScript function that takes a positive integer as input and returns true if it is a prime number, otherwise returns false.
+        <br />
+        <br />
+        b. Implement the function to check if a given positive integer is a prime number.   
+        <br />
+        <br /> 
+        Answer : <br />
+        <input type="text" class="prime-number" placeholder="Enter number" />
+        <input type="button" id="buttonPrimeNumber" value="Check Prime Number" /><br />
+        <span id="displayPrimeNumber" style="color:red;"></span>
+        
+        <script>
+            let buttonCliPrime = document.querySelector('#buttonPrimeNumber');
+                buttonCliPrime.onclick = () => {
+
+                let data      = document.querySelector('.prime-number');                 
+                let number    = data.value;
+                let isPrime = true;
+                let message = "";
+
+                if (number === 1) {
+                    message = "1 is neither prime nor composite number.";
+                }
+
+                // check if number is greater than 1
+                else if (number > 1) {
+
+                    // looping through 2 to number-1
+                    for (let i = 2; i < number; i++) {
+                        if (number % i == 0) {
+                            isPrime = false;
+                            break;
+                        }
+                    }
+
+                    if (isPrime) {
+                        message = `${number} is a prime number`;
+                        // console.log(`${number} is a prime number`);
+                    } else {
+                        message = `${number} is a not prime number`;
+                        // console.log(`${number} is a not prime number`);
+                    }
+                }
+
+                // check if number is less than 1
+                else {
+                    message = "The number is not a prime number."
+                    // console.log("The number is not a prime number.");
+                }
+
+                document.querySelector('#displayPrimeNumber').innerText = message;
+            }            
+        </script>
+    
+    </label><br /><br />
+
+    <label>4.Window Object:<br />
+
+        a. Create a function that opens a new window with a specified URL and dimensions (width and height).
+        <br />
+        <br />
+        b. Implement the function to open a new window with the URL "https://www.example.com" and dimensions 800x600.
+        <br />
+        <br /> 
+        Answer : <br />
+        <a onclick="window.open('https://www.example.com', '_blank', 'location=yes,width=800,height=600,scrollbars=yes,status=yes');">
+          <button type="button">Click here for "New Window"</button>
+        </a>        
+    
+    </label><br /><br />
+
+    <label>5.Navigator Object:<br />
+
+        a. Write a JavaScript function that detects the user's browser name and version using the navigator object.
+        <br />
+        <br />
+        b. Implement the function to display the user's browser name and version.
+        <br />
+        <br /> 
+        Answer : <br />
+        <div class="display-navigator" style="color:red;"></div>
+
+        <script type="text/javascript">           
+
+           function get_browser() {
+                var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+                if(/trident/i.test(M[1])){
+                    tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+                    return {name:'IE',version:(tem[1]||'')};
+                    }   
+                if(M[1]==='Chrome'){
+                    tem=ua.match(/\bEdg\/(\d+)/)
+                    if(tem!=null)   {return {name:'Edge(Chromium)', version:tem[1]};}
+                    tem=ua.match(/\bOPR\/(\d+)/)
+                    if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+                    }   
+                M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+                return {
+                  name: M[0],
+                  version: M[1]
+                };
+             }
+
+            var browser=get_browser();
+            //console.log(browser.name);
+
+            const data = document.querySelector(".display-navigator");
+            data.innerText = 'Browser Name : '+browser.name + '\n' +'Browser version : '+browser.version;
+        </script>
+    
+    </label><br /><br />
+
+    <label>6.Geolocation:<br />
+
+        a. Implement a JavaScript function that retrieves the user's current location (latitude and longitude) using the geolocation API.
+        <br />
+        <br /> 
+        Answer : <br />
+        <button onclick="getLocation()">My Geolocation</button> <br />
+        <div id="display-geolocation" style="color:red;"></div>
+
+        <script type="text/javascript"> 
+            var x = document.getElementById("display-geolocation");
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+              } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
+
+            function showPosition(position) {
+              x.innerHTML = "Latitude: " + position.coords.latitude + 
+              "<br>Longitude: " + position.coords.longitude;
+            }
+        </script>
+    
+    </label><br /><br />
+
+    <label>7.JS Common Events:<br />
+
+        Implement a webpage with the following functionality:
+        <br />
+        <br /> 
+        a. When the user clicks anywhere on the page, display an alert with the coordinates (x, y) of the click.
+        <br />
+        <br /> 
+        b. When the user presses any key on the keyboard, display an alert with the key code of the pressed key.
+        <br />
+        <br /> 
+        c. When the user moves the mouse over an image, change the image source to another image of your choice.
+        <br />
+        <br /> 
+        Answer : <br />
+
+        <textarea placeholder="Enter here any key" onkeypress="KeyPressCheck(event)"></textarea>
+        <div id="display-keycode" style="color:red;">Please check console log</div>
+        <br />
+        <br />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSruD7Ri2Uk3POjF-fk9n4WEKo8LvheCkgRdGDQcMs&s" class="change-images-masud" onmouseover="imageChangesmasud()">
+
+        <script type="text/javascript"> 
+            //When the user clicks anywhere on the page, display an alert with the coordinates (x, y) of the click.
+            //kore rekhechi...check korar somoy comment remove kore dekhben
+
+            // function printMousePos(event) {
+            //   document.body.textContent =
+            //     "clientX: " + event.clientX +
+            //     " - clientY: " + event.clientY;
+            // }
+
+            // document.addEventListener("click", printMousePos);
+
+            function KeyPressCheck(event){
+               console.log('pressed::'+ event.keyCode);
+            }
+
+            function imageChangesmasud(){
+                console.log('pressed');
+               var hoverImage = document.querySelector('.change-images-masud');
+               hoverImage.src = "https://idlc.com/mbr/images/public/3xJOWfeJzgRjjceZPwJ6qv.png";
+            }
+        </script>
+    
+    </label><br /><br />
+
+    <label>8.HTML DOM Document:<br />
+
+        a. Create a webpage with a button and a paragraph element.
+        <br />
+        <br />
+        b. Implement a JavaScript function that changes the text content of the paragraph element 
+        to "Button Clicked!" when the button is clicked.
+        <br />
+        <br /> 
+        Answer : <br />
+        <p class="text-content">
+            Implement a JavaScript function that changes the text content of the 
+            paragraph element to "Button Clicked!" when the button is clicked
+        </p>
+        
+        <button onclick="changeText()">Click here</button>
+        
+        <script>
+            function changeText(){
+                const color = document.querySelector(".text-content");
+                color.textContent = "Changed."
+                
+            }       
+        </script>
+    
+    </label><br /><br />
+
+    <label>9.JS DOM Working with Form Input: Baki aseeeeeeeeeeeeeeeeeee<br />
+
+        Implement a webpage with a form that has the following fields:
+        <br />
+        <br />
+
+a. Name (text input)
+<br />
+<br />
+
+b. Email (email input)
+<br />
+<br />
+c. Password (password input)
+<br />
+<br />
+d. Confirm Password (password input)
+<br />
+<br />
+e. Submit (button)
+<br />
+<br />
+Implement JavaScript validation for the form fields:
+<br />
+<br />
+f. Name should not be empty and should contain only letters.
+<br />
+<br />
+g. Email should be a valid email address.
+<br />
+<br />
+h. Password should have a minimum length of 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit.
+<br />
+<br />
+i. Confirm Password should match the Password field.
+<br />
+<br />
+j. Display appropriate error messages for invalid fields.
+        <br />
+        <br />
+        Answer : <br />
+        <form action="signup.html" method="post" id="signup">
+            <h1>Sign Up</h1>
+            <div class="field">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your fullname" />
+                <small></small>
+            </div>
+            <div class="field">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email address" />
+                <small></small>
+            </div>
+            <div class="field">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" />
+                <small></small>
+            </div>
+            <div class="field">
+                <label for="confirm">Confirm Password:</label>
+                <input type="password" id="confirm" name="confirm" placeholder="Enter your confirm password" />
+                <small></small>
+            </div>
+            <div class="field">
+                <button type="submit" class="full">Submit</button>
+            </div>
+        </form>
+        
+        <script>
+            // show a message with a type of the input
+            function showMessage(input, message, type) {
+                // get the small element and set the message
+                const msg = input.parentNode.querySelector("small");
+                msg.innerText = message;
+                // update the class for the input
+                input.className = type ? "success" : "error";
+                return type;
+            }
+
+            function showError(input, message) {
+                return showMessage(input, message, false);
+            }
+
+            function showSuccess(input) {
+                return showMessage(input, "", true);
+            }
+
+            function hasValue(input, message) {
+                if (input.value.trim() === "") {
+                    return showError(input, message);
+                }
+                return showSuccess(input);
+            }
+
+            function validateEmail(input, requiredMsg, invalidMsg) {
+                // check if the value is not empty
+                if (!hasValue(input, requiredMsg)) {
+                    return false;
+                }
+                // validate email format
+                const emailRegex =
+                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                const email = input.value.trim();
+                if (!emailRegex.test(email)) {
+                    return showError(input, invalidMsg);
+                }
+                return true;
+            }
+
+            const form = document.querySelector("#signup");
+
+            const NAME_REQUIRED = "Please enter your name";
+            const EMAIL_REQUIRED = "Please enter your email";
+            const EMAIL_INVALID = "Please enter a correct email address format";
+
+            form.addEventListener("submit", function (event) {
+                // stop form submission
+                event.preventDefault();
+
+                // validate the form
+                let nameValid = hasValue(form.elements["name"], NAME_REQUIRED);
+                let emailValid = validateEmail(form.elements["email"], EMAIL_REQUIRED, EMAIL_INVALID);
+                // if valid, submit the form.
+                if (nameValid && emailValid) {
+                    alert("Demo only. No form was posted.");
+                }
+            });
+
+     
+        </script>
+    
+    </label><br /><br />
+
+    <label>10.DOM Manipulate CSS Class:<br />
+
+        a. Create a webpage with a button and a paragraph element.
+        <br />
+        <br />
+        b. Implement a JavaScript function that adds a CSS class named "highlight" to the paragraph element when the button is clicked. The "highlight" 
+        class should change the background color of the paragraph to yellow.
+        <br />
+        <br /> 
+        Answer : <br />
+        <p class="highlight">
+            The "highlight" class should change the background color of the paragraph to yellow.
+        </p>
+        
+        <button onclick="changeColor()">Click here</button>
+        
+        <script>
+            function changeColor(){
+                const color = document.querySelector(".highlight");
+                color.style.background = "yellow";
+                
+            }       
+        </script>
+    
+    </label><br /><br />
+
+    <label>11.Create Element & Append Element:<br />
+
+        a. Create a webpage with an empty unordered list (< ul >).
+        <br />
+        <br />
+        b. Implement a JavaScript function that dynamically creates five list items (< li >) with sequential 
+            numbers (1 to 5) and appends them to the unordered list.
+        <br />
+        <br /> 
+        Answer : <br />
+        <ul class="list"></>
+
+        </ul>
+        
+        <script>
+            var arrayValue = ['Append Element', 'Append Element', 'Append Element', 'Append Element', 'Append Element', 'Append Element'];
+
+            var li = "";
+            for (i = 1; i < arrayValue.length; i++) {
+
+                li +="<li style='display:block'>"+i+". "+ arrayValue[i]+"</li>";
+            }
+            $('.list').append(li);      
+        </script>
+    
+    </label><br /><br />
+
+    <label>12.DOM Change Attribute Value:<br />
+
+        a. Create a webpage with an image element (< img >) that has an initial source URL.
+        <br />
+        <br />
+        b. Implement a JavaScript function that changes the source URL of the image element 
+        when a button is clicked. Use a different image URL of your choice.
+        <br />
+        <br /> 
+        Answer : <br />
+        <img id="myImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSruD7Ri2Uk3POjF-fk9n4WEKo8LvheCkgRdGDQcMs&s">
+        <button onclick="changeImage()">New Image (Click here)</button>
+        
+        <script>
+            function changeImage(){
+                const image = document.querySelector("img");
+                image.src = "https://v1.ostad.app/static/images/ostad_logo.png";
+                
+            }       
+        </script>
+    
+    </label><br /><br />
+
+    <label>13.DOM Query Selector:<br />
+
+        a. Create a webpage with multiple paragraphs containing different classes and IDs
+        <br />
+        <br />
+        b. Implement a JavaScript function that selects all paragraphs with a 
+        specific class and changes their text color to red.
+        <br />
+        <br /> 
+        Answer : <br />
+        <p class="dom" id="heading">Welcome to DOM Query Selector.</p>
+        <p class="dom" id="dom">DOM.</p>
+        <p class="dom" id="query">Query</p>
+        <p class="dom" id="selector">Selector</p>
+        <p class="black" id="black">Black</p>
+        <p class="black" id="deepblack">Deep Black</p>
+        <script>
+            var dom = document.querySelectorAll(".dom");
+
+            for(let data of dom){
+                data.style.color="red"; //red
+            }
+            
+        </script>
+    
+    </label><br /><br />
+
+    <label>14.AJAX Get Request:<br />
+
+        a. Implement a JavaScript function that sends an AJAX GET 
+        request to the following URL: "https://api.example.com/data".
+        <br />
+        <br /> 
+        Answer : <br />
+        <script>
+            getData();
+            async function getData()
+            {
+                let result = await axios.get('https://api.example.com/data');
+                
+                if(result.status==200)
+                {
+                    let list = result.data['data'];
+                    list.forEach(item => {
+                        document.getElementById("itemList").innerHTML += (
+                            `<tr>    
+                                <td>${item['ProductName']}</td>    
+                                <td>${item['ProductCode']}</td>    
+                                <td>${item['UnitPrice']}</td>    
+                                <td>${item['Qty']}</td>    
+                                <td>${item['TotalPrice']}</td>     
+                                <td><button onclick=deleteItem('${item['_id']}')>Delete</button></td>    
+                                <td><button onclick=updateItem('${item['_id']}')>Update</button></td>    
+                            </tr>`
+                        )
+                    });
+                }
+                else{
+                    console.log("error");
+                } 
+            }
+        </script>
+    
+    </label><br /><br />
+
+    <label>15.AJAX Post Request:<br />
+
+        a. Implement a JavaScript 
+        function that sends an AJAX POST request to the following URL: "https://api.example.com/submit".
+        <br />
+        <br />
+        
+        b. Send a JSON payload with the following data: { "name": "John Doe", "email": "johndoe@example.com" }.
+        <br />
+        <br /> 
+        Answer : <br />
+        <script>
+            async function CreateData()
+            {
+                let name    = "John Doe";
+                let email   = "johndoe@example.com"; 
+
+                let inputData = {                
+                    "name"  :name,
+                    "email" :email
+                };
+
+                let result = await axios.post(`https://api.example.com/submit`, inputData);
+                
+                if(result.status==200)
+                {
+                    alert("Successfully Created");
+                    window.location="index.html";
+                }
+                else{
+                    console.log("error");
+                } 
+            }
+        </script>
+    
+    </label><br />  
+</body>
+</html>
